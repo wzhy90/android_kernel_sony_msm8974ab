@@ -11,6 +11,10 @@ CUR_TC=/home/wzhy90/linaro/bin/
 ARCH=arm CROSS_COMPILE=${CUR_TC}arm-eabi- make -j4
 #ARCH=arm CROSS_COMPILE=~/arm-linux-androideabi-4.7/bin/arm-linux-androideabi- make -j8
 
+if [ "$?" != 0 ]
+then
+echo "There are some errors when making files..."
+else
 echo "checking for compiled kernel..."
 if [ -f arch/arm/boot/zImage ]
 then
@@ -32,4 +36,4 @@ cp arch/arm/boot/zImage ./final_files/.
 echo "DONE"
 
 fi
-
+fi
