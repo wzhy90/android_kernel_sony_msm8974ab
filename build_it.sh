@@ -20,6 +20,10 @@ if [ -f arch/arm/boot/zImage ]
 then
 
 echo "generating device tree..."
+if [ ! -d ./final_files ]
+then
+mkdir ./final_files
+fi
 ./dtbToolCM --force-v2 -o ./final_files/dt.img -s 2048 -p ./scripts/dtc/ ./arch/arm/boot/
 
 ### copy zImage
