@@ -3156,10 +3156,10 @@ static ssize_t rgbcommon_start_blink_store(struct device *dev,
 				led->rgb_cfg->pwm_cfg->lut_params.ramp_step_ms =
 					led->rgb_cfg->pwm_cfg->lut_params.lut_pause_lo /
 						MAX_DUTY_PACKETS_LEN;
-				if (led->rgb_cfg->pwm_cfg->lut_params.ramp_step_ms < 10) {
+				if (led->rgb_cfg->pwm_cfg->lut_params.ramp_step_ms < 30) {
 					/* that's a rapid one. We usually get this when we
 					receive a phone call. */
-					led->rgb_cfg->pwm_cfg->lut_params.ramp_step_ms = 10;
+					led->rgb_cfg->pwm_cfg->lut_params.ramp_step_ms = 30;
 				} else if (led->rgb_cfg->pwm_cfg->lut_params.lut_pause_lo < 500) {
 					/* do not blink too fast */
 					led->rgb_cfg->pwm_cfg->lut_params.ramp_step_ms *= 1;
