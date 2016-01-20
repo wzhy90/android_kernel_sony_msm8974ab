@@ -4,7 +4,7 @@
  *  Copyright © 2007  Anton Vorontsov <cbou@mail.ru>
  *  Copyright © 2004  Szabolcs Gyurko
  *  Copyright © 2003  Ian Molton <spyro@f2s.com>
- *  Copyright (C) 2013-2014 Sony Mobile Communications AB.
+ *  Copyright (c) 2013 Sony Mobile Communications Inc.
  *
  *  Modified: 2004, Oct     Szabolcs Gyurko
  *
@@ -108,6 +108,7 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_INPUT_CURRENT_MAX,
 	POWER_SUPPLY_PROP_INPUT_CURRENT_TRIM,
 	POWER_SUPPLY_PROP_INPUT_CURRENT_SETTLED,
+	POWER_SUPPLY_PROP_VCHG_LOOP_DBC_BYPASS,
 	POWER_SUPPLY_PROP_CURRENT_NOW,
 	POWER_SUPPLY_PROP_CURRENT_AVG,
 	POWER_SUPPLY_PROP_CURRENT_SYSTEM_MAX,
@@ -144,6 +145,8 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_ENABLE_SHUTDOWN_AT_LOW_BATTERY,
 	POWER_SUPPLY_PROP_BATT_AGING,
 	POWER_SUPPLY_PROP_ENABLE_LLK,
+	POWER_SUPPLY_PROP_LLK_SOCMAX,
+	POWER_SUPPLY_PROP_LLK_SOCMIN,
 	POWER_SUPPLY_PROP_BATT_ID,
 	/* Properties of type `const char *' */
 	POWER_SUPPLY_PROP_MODEL_NAME,
