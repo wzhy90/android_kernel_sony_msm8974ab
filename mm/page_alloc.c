@@ -13,7 +13,9 @@
  *  Per cpu hot/cold page lists, bulk allocation, Martin J. Bligh, Sept 2002
  *          (lots of bits borrowed from Ingo Molnar & Andrew Morton)
  *
- * Copyright (c) 2013 Sony Mobile Communications AB.
+ *  NOTE: This file has been modified by Sony Mobile Communications Inc.
+ *  Modifications are Copyright (c) 2013 Sony Mobile Communications Inc,
+ *  and licensed under the license of the file.
  */
 
 #include <linux/stddef.h>
@@ -659,6 +661,8 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 	int migratetype = 0;
 	int batch_free = 0;
 	int to_free = count;
+	int free = 0;
+	int cma_free = 0;
 	int mt = 0;
 
 	spin_lock(&zone->lock);
@@ -691,20 +695,21 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 			mt = get_pageblock_migratetype(page);
 			if (likely(mt != MIGRATE_ISOLATE))
 				mt = page_private(page);
+
 			/* must delete as __free_one_page list manipulates */
 			list_del(&page->lru);
 			/* MIGRATE_MOVABLE list may include MIGRATE_RESERVEs */
 			__free_one_page(page, zone, 0, mt);
 			trace_mm_page_pcpu_drain(page, 0, mt);
 			if (likely(mt != MIGRATE_ISOLATE)) {
-				__mod_zone_page_state(zone, NR_FREE_PAGES, 1);
+				free++;
 				if (is_migrate_cma(mt))
-					__mod_zone_page_state(zone,
-						NR_FREE_CMA_PAGES, 1);
+					cma_free++;
 			}
 		} while (--to_free && --batch_free && !list_empty(list));
 	}
-
+	__mod_zone_page_state(zone, NR_FREE_PAGES, free);
+	__mod_zone_page_state(zone, NR_FREE_CMA_PAGES, cma_free);
 	spin_unlock(&zone->lock);
 }
 
@@ -2061,6 +2066,7 @@ void warn_alloc_failed(gfp_t gfp_mask, int order, const char *fmt, ...)
 	pr_warn("%s: page allocation failure: order:%d, mode:0x%x\n",
 		current->comm, order, gfp_mask);
 
+	trace_mm_page_alloc_fail(order);
 	dump_stack();
 	if (!should_suppress_show_mem())
 		show_mem(filter);
@@ -2635,6 +2641,9 @@ retry_cpuset:
 				preferred_zone, migratetype);
 
 	trace_mm_page_alloc(page, order, gfp_mask, migratetype);
+	if (order > 1)
+		trace_mm_page_alloc_highorder(page, order,
+					      gfp_mask, migratetype);
 
 out:
 	/*
