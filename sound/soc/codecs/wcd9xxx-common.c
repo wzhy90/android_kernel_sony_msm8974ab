@@ -552,7 +552,13 @@ static int get_impedance_index(u32 imped)
 				__func__);
 		goto ret;
 	}
-	for (i = 0; i < ARRAY_SIZE(imped_index); i++) {
+	if (imped >= imped_index[ARRAY_SIZE(imped_index) - 1].imped_val) {
+		pr_debug("%s, detected impedance is greater than 32164 Ohm\n",
+				__func__);
+		i = ARRAY_SIZE(imped_index) - 1;
+		goto ret;
+	}
+	for (i = 0; i < ARRAY_SIZE(imped_index) - 1; i++) {
 		if (imped >= imped_index[i].imped_val &&
 			imped < imped_index[i + 1].imped_val)
 			break;
@@ -569,7 +575,7 @@ void wcd9xxx_clsh_imped_config(struct snd_soc_codec *codec,
 	int i  = 0;
 	int index = 0;
 	index = get_impedance_index(imped);
-	if (index > ARRAY_SIZE(imped_index)) {
+	if (index >= ARRAY_SIZE(imped_index)) {
 		pr_err("%s, invalid imped = %d\n", __func__, imped);
 		return;
 	}
@@ -948,7 +954,6 @@ static void wcd9xxx_clsh_state_hph_lo(struct snd_soc_codec *codec,
 		if ((clsh_d->state == WCD9XXX_CLSH_STATE_LO) ||
 			(req_state == WCD9XXX_CLSH_STATE_LO)) {
 			wcd9xxx_dynamic_bypass_buck_ctrl_lo(codec, false);
-			wcd9xxx_enable_buck(codec, clsh_d, true);
 			wcd9xxx_set_fclk_get_ncp(codec, clsh_d,
 						NCP_FCLK_LEVEL_8);
 			if (req_state & WCD9XXX_CLSH_STATE_HPH_ST) {
