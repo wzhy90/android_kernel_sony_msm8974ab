@@ -37,7 +37,7 @@ void quickwakeup_unregister(struct quickwakeup_ops *ops)
 	mutex_unlock(&list_lock);
 }
 
-int quickwakeup_check(void)
+static int quickwakeup_check(void)
 {
 	int check = 0;
 	struct quickwakeup_ops *index;
@@ -60,7 +60,7 @@ int quickwakeup_check(void)
 /* return 1 => suspend again
    return 0 => continue wakeup
  */
-int quickwakeup_execute(void)
+static int quickwakeup_execute(void)
 {
 	int suspend_again = 0;
 	int final_vote = 1;

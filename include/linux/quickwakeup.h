@@ -30,8 +30,6 @@ struct quickwakeup_ops {
 #ifdef CONFIG_QUICK_WAKEUP
 
 int quickwakeup_register(struct quickwakeup_ops *ops);
-int quickwakeup_check(void);
-int quickwakeup_execute(void);
 void quickwakeup_unregister(struct quickwakeup_ops *ops);
 bool quickwakeup_suspend_again(void);
 
