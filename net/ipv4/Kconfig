@@ -607,6 +607,11 @@ config TCP_CONG_CUBIC
 	depends on !TCP_CONG_ADVANCED
 	default y
 
+config TCP_CONG_WESTWOOD
+	tristate
+	depends on !TCP_CONG_ADVANCED
+	default y
+
 config DEFAULT_TCP_CONG
 	string
 	default "bic" if DEFAULT_BIC
@@ -617,7 +622,7 @@ config DEFAULT_TCP_CONG
 	default "westwood" if DEFAULT_WESTWOOD
 	default "veno" if DEFAULT_VENO
 	default "reno" if DEFAULT_RENO
-	default "cubic"
+	default "westwood"
 
 config TCP_MD5SIG
 	bool "TCP: MD5 Signature Option support (RFC2385) (EXPERIMENTAL)"
