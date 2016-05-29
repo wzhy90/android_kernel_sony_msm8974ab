@@ -84,6 +84,3 @@ GTAGS
 *.orig
 *~
 \#*#
-
-arch/arm/boot/zImage-dtb
-arch/arm/mach-msm/smd_rpc_sym.c
