@@ -39,7 +39,7 @@
 #include <linux/lcd_notify.h>
 #endif /* USE_LCD_NOTIFIER */
 #include <linux/cpufreq.h>
-#ifdef(CONFIG_HAS_EARLYSUSPEND) && !defined(DISABLE_POWER_MANAGEMENT)
+#if defined(CONFIG_HAS_EARLYSUSPEND) && !defined(DISABLE_POWER_MANAGEMENT)
 #include <linux/earlysuspend.h>
 #endif /* defined(CONFIG_HAS_EARLYSUSPEND)... */
 #ifdef CONFIG_EXYNOS4_EXPORT_TEMP
@@ -53,7 +53,7 @@
 #include <linux/ktime.h>
 #include <linux/module.h>
 #include <linux/mutex.h>
-#ifdef(CONFIG_POWERSUSPEND) && !defined(DISABLE_POWER_MANAGEMENT)
+#if defined(CONFIG_POWERSUSPEND) && !defined(DISABLE_POWER_MANAGEMENT)
 #include <linux/powersuspend.h>
 #endif /* defined(CONFIG_HAS_EARLYSUSPEND)... */
 #include <linux/sched.h>
@@ -62,7 +62,7 @@
 
 #define ENABLE_SNAP_THERMAL_SUPPORT		// ZZ: Snapdragon temperature tripping support
 
-#ifdef(CONFIG_THERMAL_TSENS8974) || defined(CONFIG_THERMAL_TSENS8960) && defined(ENABLE_SNAP_THERMAL_SUPPORT) // ZZ: Snapdragon temperature sensor
+#if defined(CONFIG_THERMAL_TSENS8974) || defined(CONFIG_THERMAL_TSENS8960) && defined(ENABLE_SNAP_THERMAL_SUPPORT) // ZZ: Snapdragon temperature sensor
 #include <linux/msm_tsens.h>
 #endif /* defined(CONFIG_THERMAL_TSENS8974)... */
 
