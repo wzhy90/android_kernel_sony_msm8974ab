@@ -15,5 +15,5 @@ CUR_TC=/home/wzhy90/toolchain-arm_linaro/bin/
 ARCH=arm CROSS_COMPILE=${CUR_TC}arm-eabi- make distclean
 #ARCH=arm CROSS_COMPILE=${CUR_TC}arm-gnueabi- make distclean
 
-git clean -xdf
+rm arch/arm/boot/zImage-dtb && rm arch/arm/mach-msm/smd_rpc_sym.c
 
