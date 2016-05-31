@@ -35,6 +35,8 @@
 #include <linux/input.h>
 #include <linux/powersuspend.h>
 
+static unsigned int suspended;
+
 static int active_count;
 
 struct cpufreq_interactive_cpuinfo {

@@ -55,6 +55,8 @@ static unsigned int min_sampling_rate;
 #define MAX_SAMPLING_DOWN_FACTOR		(10)
 #define TRANSITION_LATENCY_LIMIT		(10 * 1000 * 1000)
 
+unsigned int suspended = 0;
+
 static void do_dbs_timer(struct work_struct *work);
 
 struct cpu_dbs_info_s {

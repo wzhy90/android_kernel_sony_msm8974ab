@@ -57,6 +57,8 @@
 
 static unsigned int min_sampling_rate, num_misses;
 
+static unsigned int suspended;
+
 #define LATENCY_MULTIPLIER			(1000)
 #define MIN_LATENCY_MULTIPLIER			(100)
 #define TRANSITION_LATENCY_LIMIT		(10 * 1000 * 1000)

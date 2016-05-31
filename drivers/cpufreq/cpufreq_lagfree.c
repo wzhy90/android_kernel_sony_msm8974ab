@@ -53,7 +53,7 @@
  * All times here are in uS.
  */
 static unsigned int def_sampling_rate;
-unsigned int suspended = 0;
+static unsigned int suspended;
 #define MIN_SAMPLING_RATE_RATIO			(2)
 /* for correct statistics, we need at least 10 ticks between each measure */
 #define MIN_STAT_SAMPLING_RATE			\
