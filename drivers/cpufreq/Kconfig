@@ -127,6 +127,7 @@ config CPU_FREQ_DEFAULT_GOV_ZZMOOVE
 config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 	bool "interactive"
 	select CPU_FREQ_GOV_INTERACTIVE
+	select CPU_FREQ_GOV_PERFORMANCE
 	help
 	  Use the CPUFreq governor 'interactive' as default. This allows
 	  you to get a full dynamic cpu frequency capable system by simply
@@ -136,18 +137,21 @@ config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 config CPU_FREQ_DEFAULT_GOV_SMARTASSV2
 	bool "smartass2"
 	select CPU_FREQ_GOV_SMARTASSV2
+	select CPU_FREQ_GOV_PERFORMANCE
 	help
 		Use the CPUFreq governor 'smartassV2' as default.
 
 config CPU_FREQ_DEFAULT_GOV_LIONHEART
 	bool "lionheart"
 	select CPU_FREQ_GOV_LIONHEART
+	select CPU_FREQ_GOV_PERFORMANCE
 	help
 	 Use the CPUFreq governor 'lionheart' as default.
 
 config CPU_FREQ_DEFAULT_GOV_LAGFREE
         bool "lagfree"
         select CPU_FREQ_GOV_LAGFREE
+	select CPU_FREQ_GOV_PERFORMANCE
         help
           Use the CPUFreq governor 'lagfree' as default. This allows
           you to get a full dynamic frequency capable system by simply
@@ -159,6 +163,7 @@ config CPU_FREQ_DEFAULT_GOV_LAGFREE
 config CPU_FREQ_DEFAULT_GOV_INTELLIACTIVE
 	bool "intelliactive"
 	select CPU_FREQ_GOV_INTELLIACTIVE
+	select CPU_FREQ_GOV_PERFORMANCE
 	help
 	  Use the CPUFreq governor 'intelliactive' as default. This allows
 	  you to get a full dynamic cpu frequency capable system by simply
