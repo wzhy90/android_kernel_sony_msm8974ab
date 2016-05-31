@@ -69,7 +69,6 @@
 #define ENABLE_INPUTBOOSTER			// ZZ: enable/disable inputbooster support
 // #define ENABLE_WORK_RESTARTLOOP		// ZZ: enable/disable restart loop for touchboost (DO NOT ENABLE IN THIS VERSION -> NOT STABLE YET!)
 
-
 #ifdef ENABLE_INPUTBOOSTER
 #include <linux/slab.h>
 #include <linux/input.h>
@@ -88,7 +87,7 @@
 #define SNAP_NATIVE_HOTPLUGGING
 
 // ZZ: enable for sources with backported cpufreq implementation of 3.10 kernel
-#define CPU_IDLE_TIME_IN_CPUFREQ
+// #define CPU_IDLE_TIME_IN_CPUFREQ
 
 // ZZ: enable/disable music limits
 #define ENABLE_MUSIC_LIMITS
@@ -8704,7 +8703,7 @@ void zzmoove_resume(void)
 #endif /* ZZMOOVE_DEBUG */
 }
 
-#if defined(CONFIG_HAS_EARLYSUSPEND) && !defined(USE_LCD_NOTIFIER) && !defined (DISABLE_POWER_MANAGEMENT)
+#if defined(CONFIG_HAS_EARLYSUSPEND) && !defined(USE_LCD_NOTIFIER) && !defined(DISABLE_POWER_MANAGEMENT)
 static struct early_suspend __refdata _powersave_early_suspend = {
   .suspend = powersave_early_suspend,
   .resume = powersave_late_resume,
