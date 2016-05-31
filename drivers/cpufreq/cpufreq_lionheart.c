@@ -41,7 +41,7 @@
 #include <linux/input.h>
 #include <linux/workqueue.h>
 #include <linux/slab.h>
-#include <linux/earlysuspend.h>
+#include <linux/powersuspend.h>
 
 #define DEF_FREQUENCY_UP_THRESHOLD		(65)
 #define DEF_FREQUENCY_DOWN_THRESHOLD		(30)
@@ -532,13 +532,30 @@ struct cpufreq_governor cpufreq_gov_lionheart = {
 	.owner			= THIS_MODULE,
 };
 
+static void lionheart_early_suspend(struct power_suspend *handler)
+{
+	suspended = 1;
+}
+
+static void lionheart_late_resume(struct power_suspend *handler)
+{
+	suspended = 0;
+}
+
+static struct power_suspend lionheart_power_suspend = {
+	.suspend = lionheart_early_suspend,
+	.resume = lionheart_late_resume,
+};
+
 static int __init cpufreq_gov_dbs_init(void)
 {
+	register_power_suspend(&lionheart_power_suspend);
 	return cpufreq_register_governor(&cpufreq_gov_lionheart);
 }
 
 static void __exit cpufreq_gov_dbs_exit(void)
 {
+	unregister_power_suspend(&lionheart_power_suspend);
 	cpufreq_unregister_governor(&cpufreq_gov_lionheart);
 }
 
@@ -548,6 +565,5 @@ MODULE_LICENSE("GPL");
 
 fs_initcall(cpufreq_gov_dbs_init);
 module_exit(cpufreq_gov_dbs_exit);
-
 
 

@@ -33,6 +33,7 @@
 #include <linux/kernel_stat.h>
 #include <asm/cputime.h>
 #include <linux/input.h>
+#include <linux/powersuspend.h>
 
 static int active_count;
 
@@ -1484,6 +1485,21 @@ static void cpufreq_interactive_nop_timer(unsigned long data)
 {
 }
 
+static void intelliactive_early_suspend(struct power_suspend *handler)
+{
+	suspended = 1;
+}
+
+static void intelliactive_late_resume(struct power_suspend *handler)
+{
+	suspended = 0;
+}
+
+static struct power_suspend intelliactive_power_suspend = {
+	.suspend = intelliactive_early_suspend,
+	.resume = intelliactive_late_resume,
+};
+
 static int __init cpufreq_intelliactive_init(void)
 {
 	unsigned int i, rc;
@@ -1520,6 +1536,7 @@ static int __init cpufreq_intelliactive_init(void)
 	/* NB: wake up so the thread does not look hung to the freezer */
 	wake_up_process(speedchange_task);
 
+	register_power_suspend(&intelliactive_power_suspend);
 	return cpufreq_register_governor(&cpufreq_gov_intelliactive);
 }
 
@@ -1533,6 +1550,7 @@ static void __exit cpufreq_interactive_exit(void)
 {
 	unsigned int cpu;
 
+	unregister_power_suspend(&intelliactive_power_suspend);
 	cpufreq_unregister_governor(&cpufreq_gov_intelliactive);
 	for_each_possible_cpu(cpu) {
 		if(!cpu)

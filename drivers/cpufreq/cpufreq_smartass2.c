@@ -43,7 +43,7 @@
 #include <linux/input.h>
 #include <linux/workqueue.h>
 #include <linux/slab.h>
-#include <linux/earlysuspend.h>
+#include <linux/powersuspend.h>
 
 /******************** Tunable parameters: ********************/
 
@@ -749,6 +749,21 @@ static int cpufreq_governor_smartass(struct cpufreq_policy *new_policy,
 	return 0;
 }
 
+static void smartassv2_early_suspend(struct power_suspend *handler)
+{
+	suspended = 1;
+}
+
+static void smartassv2_late_resume(struct power_suspend *handler)
+{
+	suspended = 0;
+}
+
+static struct power_suspend smartassv2_power_suspend = {
+	.suspend = smartassv2_early_suspend,
+	.resume = smartassv2_late_resume,
+};
+
 static int __init cpufreq_smartass_init(void)
 {
 	unsigned int i;
@@ -797,6 +812,7 @@ static int __init cpufreq_smartass_init(void)
 
 	register_early_suspend(&smartass_power_suspend);
 
+	register_power_suspend(&smartassv2_power_suspend);
 	return cpufreq_register_governor(&cpufreq_gov_smartassv2);
 }
 
@@ -808,6 +824,7 @@ module_init(cpufreq_smartass_init);
 
 static void __exit cpufreq_smartass_exit(void)
 {
+	unregister_power_suspend(&smartassv2_power_suspend);
 	cpufreq_unregister_governor(&cpufreq_gov_smartassv2);
 	destroy_workqueue(up_wq);
 	destroy_workqueue(down_wq);
